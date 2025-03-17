@@ -108,5 +108,12 @@ batch_size = 120
 #Train the model
 training_history_weighted = weighted.fit(X_train_resampled, Y_train_resampled,class_weight=class_weight_dict,validation_data=(X_valid_resampled, Y_valid_resampled),epochs=nb_epochs,batch_size=batch_size)
 
+
+np.save('numpy_data/X_train.npy',X_train_resampled)
+np.save('numpy_data/X_test.npy',X_test_resampled)
+np.save('numpy_data/X_valid.npy',X_valid_resampled)
+np.save('numpy_data/Y_train.npy',Y_train_resampled)
+np.save('numpy_data/Y_test.npy',Y_test_resampled)
+np.save('numpy_data/Y_valid.npy',Y_valid_resampled)
 weighted.save('Panhelleux_Rabier_balanced_model.h5')
 
