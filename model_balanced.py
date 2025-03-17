@@ -1,18 +1,17 @@
-
-import tensorflow as tf
+import numpy as np
+import pandas as pd
+!pip install tensorflow==2.12.0
+import tensorflow 
 from tensorflow import keras
 from tensorflow.keras import layers,models
 import matplotlib.pyplot as plt
 import IPython
 import sys, os, array, time
 import serial 
-import numpy as np
-import pandas as pd
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.layers import Dense, BatchNormalization, Dropout, ReLU, Input
 from tensorflow.keras.regularizers import l2
 from tensorflow.keras.optimizers import Adam
-import tensorflow as tf
 from sklearn.metrics import confusion_matrix,classification_report, ConfusionMatrixDisplay
 import seaborn as sns
 from sklearn.utils.class_weight import compute_class_weight  
@@ -97,7 +96,7 @@ x = Dropout(0.25)(x)
 
 outputs = Dense(5, activation='softmax')(x)
 #Model defintion
-weighted = tf.keras.Model(inputs=inputs, outputs=outputs, name="unbalanced")
+weighted = keras.Model(inputs=inputs, outputs=outputs, name="unbalanced")
 weighted.summary()
 weighted.compile(optimizer=Adam(learning_rate=0.0001),
                    loss='categorical_crossentropy',
