@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
-!pip install tensorflow==2.12.0
-import tensorflow 
+import tensorflow as tf 
 from tensorflow import keras
 from tensorflow.keras import layers,models
 import matplotlib.pyplot as plt
@@ -64,34 +63,16 @@ inputs = Input(shape=(5,))
 # Dense layers with L2 regularization, ReLu activation and dropout rate of 25%
 
 
-x = Dense(512, kernel_regularizer=l2(0.001))(inputs)
-x = BatchNormalization()(x)
+
+x = Dense(128, kernel_regularizer=l2(0.001))(inputs)
 x = ReLU()(x)
-x = Dropout(0.25)(x)
+x = Dropout(0.15)(x)
 
-
-x = Dense(256, kernel_regularizer=l2(0.001))(x)
-x = BatchNormalization()(x)
-x = ReLU()(x)
-x = Dropout(0.25)(x)
-
-
-x = Dense(128, kernel_regularizer=l2(0.001))(x)
-x = BatchNormalization()(x)
-x = ReLU()(x)
-x = Dropout(0.25)(x)
-
-
-x = Dense(64, kernel_regularizer=l2(0.001))(x)
-x = BatchNormalization()(x)
-x = ReLU()(x)
-x = Dropout(0.25)(x)
 
 
 x = Dense(32, kernel_regularizer=l2(0.001))(x)
-x = BatchNormalization()(x)
 x = ReLU()(x)
-x = Dropout(0.25)(x)
+x = Dropout(0.15)(x)
 
 
 outputs = Dense(5, activation='softmax')(x)
@@ -108,11 +89,18 @@ batch_size = 120
 training_history_weighted = weighted.fit(X_train_resampled, Y_train_resampled,class_weight=class_weight_dict,validation_data=(X_valid_resampled, Y_valid_resampled),epochs=nb_epochs,batch_size=batch_size)
 
 
-np.save('numpy_data/X_train.npy',X_train_resampled)
-np.save('numpy_data/X_test.npy',X_test_resampled)
-np.save('numpy_data/X_valid.npy',X_valid_resampled)
-np.save('numpy_data/Y_train.npy',Y_train_resampled)
-np.save('numpy_data/Y_test.npy',Y_test_resampled)
-np.save('numpy_data/Y_valid.npy',Y_valid_resampled)
-weighted.save('Panhelleux_Rabier_balanced_model.h5')
+#np.save('numpy_data/X_train.npy',X_train_resampled)
+#np.save('numpy_data/X_test.npy',X_test_resampled)
+#np.save('numpy_data/X_valid.npy',X_valid_resampled)
+#np.save('numpy_data/Y_train.npy',Y_train_resampled)
+#np.save('numpy_data/Y_test.npy',Y_test_resampled)
+#np.save('numpy_data/Y_valid.npy',Y_valid_resampled)
+weighted.save('Panhelleux_Rabier_batchless_model.h5')
+
+tf.saved_model.save(weighted, "Panhelleux_Rabier_batchless_saved")
+converter = tf.lite.TFLiteConverter.from_saved_model("Panhelleux_Rabier_batchless_saved")
+converter.optimizations = [tf.lite.Optimize.DEFAULT]
+tflite_model = converter.convert()
+with open("Panhelleux_Rabier_batchless_model.tflite", "wb") as f:
+    f.write(tflite_model)
 
