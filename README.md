@@ -15,7 +15,8 @@ Le but de cette session pratique est de développer un modèle de deep learning 
     Après avoir nettoyé et sélectionné les variables pertinentes (ex. : températures, vitesse, couple, usure, etc.), nous avons divisé le dataset en ensembles d’entraînement, de test et de validation. Pour contrer le déséquilibre, nous avons appliqué la technique SMOTE et utilisé la pondération des classes lors de l’entraînement.
     
 3.  **Modélisation :**  
-    Notre modèle est un réseau de neurones profond constitué de plusieurs couches denses, intégrant la normalisation (BatchNormalization), l’activation ReLU, un mécanisme de régularisation par L2 et du dropout pour limiter le surapprentissage. La couche de sortie utilise une activation softmax pour prédire les 5 classes (les 4 types de défaillance et l’état fonctionnel).
+    Le modèle commence par une couche de 512 neurones, puis enchaîne avec des couches plus petites (128, 64 et 32 neurones), chacune suivie d’un Dropout de 10 % pour éviter le surapprentissage. Toutes ces couches utilisent l’activation ReLU.
+La dernière couche utilise softmax, ce qui permet de prédire l’une des 5 classes possibles (les 4 types de panne ou un fonctionnement normal). On utilise 70 epochs et 100 de batch.
     
 4.  **Évaluation :**  
     Nous avons évalué la performance du modèle à l’aide d’indicateurs tels que la matrice de confusion et le rapport de classification. L’approche initiale sans rééquilibrage montre une forte prédominance de la classe fonctionnelle, tandis que le modèle entraîné sur des données rééquilibrées améliore significativement la détection des classes de défaillance minoritaires.
