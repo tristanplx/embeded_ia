@@ -22,7 +22,7 @@ La dernière couche utilise softmax, ce qui permet de prédire l’une des 5 cla
     Nous avons évalué la performance du modèle à l’aide d’indicateurs tels que la matrice de confusion et le rapport de classification. L’approche initiale sans rééquilibrage montre une forte prédominance de la classe fonctionnelle, tandis que le modèle entraîné sur des données rééquilibrées améliore significativement la détection des classes de défaillance minoritaires.
 
 ### STM32Cube
-    Dans STM32CubeIDE, on charge le modèle tflite dans l'onglet MX-Cube-AI dans la section middlewares du fichier .ioc. Pour valider le modèle on met ensuite les jeu de données *X_valid_resized_mini.npy* et *Y_valid_resized_mini.npy* dans les jeux de données. Aussi on analyse le modèle et on peut également valider son fonctionnement sur la carte via l'option *validate on target*. Cette validation nécessite parfois de manipuler le *linker* qui pose parfois problème. La démarche pour faire fonctionner le linker est expliquée dans un readme du repertoire STM. Ces deux étapes fonctionnent systématiquement.
+Dans STM32CubeIDE, on charge le modèle tflite dans l'onglet MX-Cube-AI dans la section middlewares du fichier .ioc. Pour valider le modèle on met ensuite les jeu de données *X_valid_resized_mini.npy* et *Y_valid_resized_mini.npy* dans les jeux de données. Aussi on analyse le modèle et on peut également valider son fonctionnement sur la carte via l'option *validate on target*. Cette validation nécessite parfois de manipuler le *linker* qui pose parfois problème. La démarche pour faire fonctionner le linker est expliquée dans un readme du repertoire STM. Ces deux étapes fonctionnent systématiquement.
     On peut ensuite valider le fonctionner du modèle sur la carte grâce à un instrumentation python. On charge le modèle dans la carte via l'option *run*. Si des messages d'erreurs sont affichés, le programme compile en réalité correctement. Ensuite on se place dans ce même repertoire via un terminal et on exécute le fichier python avec la commande **python3 communication_stm32_rp.py**. Cette fois ci la démarche ne fonctionne pas systématiquement et la synchronisation échoue la plupart du temps.    
 
    ## Arborescence
@@ -32,4 +32,4 @@ La dernière couche utilise softmax, ce qui permet de prédire l’une des 5 cla
 
 ## Conclusion
 
-    Le modèle est assez performant et ne semble pas overfitter. Pour l’utiliser sur la carte STM32, on a dû réduire la taille des données à cause du temps de calcul, de bugs de CubeIDE ou de crashs de la carte. L’analyse du modèle fonctionne bien, même si la partie communication Python reste un peu instable.
+Le modèle est assez performant et ne semble pas overfitter. Pour l’utiliser sur la carte STM32, on a dû réduire la taille des données à cause du temps de calcul, de bugs de CubeIDE ou de crashs de la carte. L’analyse du modèle fonctionne bien, même si la partie communication Python reste un peu instable.
