@@ -1,0 +1,542 @@
+{
+    "_allocate_inputs": 4,
+    "_allocate_outputs": 4,
+    "cli_parameters": "validate --target stm32l4 --name network -m C:/Users/trist/Downloads/Panhelleux_Rabier_model (4).tflite --compression none --verbosity 1 --workspace C:/Users/trist/AppData/Local/Temp/mxAI_workspace496872811945008658272763313387946 --output C:/Users/trist/.stm32cubemx/network_output --valoutput C:/Users/trist/Downloads/Y_valid_resized.npy --mode target --valinput C:/Users/trist/Downloads/X_valid_resized.npy --desc serial:115200",
+    "cli_version": {
+        "extra": "20049",
+        "major": 2,
+        "micro": 0,
+        "minor": 0
+    },
+    "cli_version_str": "2.0.0-20049",
+    "code_size": 0,
+    "compression": [],
+    "date_time": "2025-03-19T22:20:38+0100",
+    "error": 0,
+    "error_str": [],
+    "exec_cmd": "validate",
+    "exec_duration": 0.0,
+    "hash": "0x09055ad2e0e15b9e283bd2405c1edfb7",
+    "inputs": [
+        "serving_default_keras_tensor_1200"
+    ],
+    "layers": [
+        {
+            "c_id": [
+                0,
+                1
+            ],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 20,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        5
+                    ]
+                },
+                "rom_size": 12288
+            },
+            "id": 0,
+            "inputs": [],
+            "name": "serving_default_keras_tensor_1200",
+            "original": "",
+            "type": "Input"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 2560,
+                "psize": 10240,
+                "rom_size": 0
+            },
+            "id": 0,
+            "inputs": [],
+            "name": "weighted_1_dense_44_1_MatMul",
+            "original": "",
+            "type": "Placeholder"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 512,
+                "psize": 2048,
+                "rom_size": 0
+            },
+            "id": 0,
+            "inputs": [],
+            "name": "weighted_1_dense_44_1_BiasAdd_ReadVariableOp",
+            "original": "",
+            "type": "Placeholder"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 3072,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 2048,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        512
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 0,
+            "inputs": [
+                "serving_default_keras_tensor_1200",
+                "weighted_1_dense_44_1_MatMul",
+                "weighted_1_dense_44_1_BiasAdd_ReadVariableOp"
+            ],
+            "name": "gemm_0",
+            "original": "FULLY_CONNECTED",
+            "type": "Gemm"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 512,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 2048,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        512
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 0,
+            "inputs": [
+                "gemm_0"
+            ],
+            "name": "nl_0_nl",
+            "original": "FULLY_CONNECTED",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [
+                2,
+                3
+            ],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 65536,
+                "psize": 262144,
+                "rom_size": 262656
+            },
+            "id": 1,
+            "inputs": [],
+            "name": "arith_constant3",
+            "original": "",
+            "type": "Placeholder"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 128,
+                "psize": 512,
+                "rom_size": 0
+            },
+            "id": 1,
+            "inputs": [],
+            "name": "arith_constant7",
+            "original": "",
+            "type": "Placeholder"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 65664,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 512,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        128
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 1,
+            "inputs": [
+                "nl_0_nl",
+                "arith_constant3",
+                "arith_constant7"
+            ],
+            "name": "gemm_1",
+            "original": "FULLY_CONNECTED",
+            "type": "Gemm"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 128,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 512,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        128
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 1,
+            "inputs": [
+                "gemm_1"
+            ],
+            "name": "nl_1_nl",
+            "original": "FULLY_CONNECTED",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [
+                4,
+                5
+            ],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 8192,
+                "psize": 32768,
+                "rom_size": 33024
+            },
+            "id": 2,
+            "inputs": [],
+            "name": "arith_constant2",
+            "original": "",
+            "type": "Placeholder"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 64,
+                "psize": 256,
+                "rom_size": 0
+            },
+            "id": 2,
+            "inputs": [],
+            "name": "arith_constant6",
+            "original": "",
+            "type": "Placeholder"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 8256,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 256,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        64
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 2,
+            "inputs": [
+                "nl_1_nl",
+                "arith_constant2",
+                "arith_constant6"
+            ],
+            "name": "gemm_2",
+            "original": "FULLY_CONNECTED",
+            "type": "Gemm"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 64,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 256,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        64
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 2,
+            "inputs": [
+                "gemm_2"
+            ],
+            "name": "nl_2_nl",
+            "original": "FULLY_CONNECTED",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [
+                6,
+                7
+            ],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 2048,
+                "psize": 8192,
+                "rom_size": 8320
+            },
+            "id": 3,
+            "inputs": [],
+            "name": "arith_constant1",
+            "original": "",
+            "type": "Placeholder"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 32,
+                "psize": 128,
+                "rom_size": 0
+            },
+            "id": 3,
+            "inputs": [],
+            "name": "arith_constant5",
+            "original": "",
+            "type": "Placeholder"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 2080,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 128,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        32
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 3,
+            "inputs": [
+                "nl_2_nl",
+                "arith_constant1",
+                "arith_constant5"
+            ],
+            "name": "gemm_3",
+            "original": "FULLY_CONNECTED",
+            "type": "Gemm"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 32,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 128,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        32
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 3,
+            "inputs": [
+                "gemm_3"
+            ],
+            "name": "nl_3_nl",
+            "original": "FULLY_CONNECTED",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [
+                8
+            ],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 160,
+                "psize": 640,
+                "rom_size": 660
+            },
+            "id": 4,
+            "inputs": [],
+            "name": "arith_constant",
+            "original": "",
+            "type": "Placeholder"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 5,
+                "psize": 20,
+                "rom_size": 0
+            },
+            "id": 4,
+            "inputs": [],
+            "name": "arith_constant4",
+            "original": "",
+            "type": "Placeholder"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 165,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 20,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        5
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 4,
+            "inputs": [
+                "nl_3_nl",
+                "arith_constant",
+                "arith_constant4"
+            ],
+            "name": "gemm_4",
+            "original": "FULLY_CONNECTED",
+            "type": "Gemm"
+        },
+        {
+            "c_id": [
+                9
+            ],
+            "extras": {
+                "n_macc": 75,
+                "n_params": 0,
+                "psize": 0,
+                "rom_output": {
+                    "c_size": 20,
+                    "fmt": {
+                        "format": "float"
+                    },
+                    "shape": [
+                        5
+                    ]
+                },
+                "rom_size": 0
+            },
+            "id": 5,
+            "inputs": [
+                "gemm_4"
+            ],
+            "name": "nl_5",
+            "original": "SOFTMAX",
+            "type": "Nonlinearity"
+        }
+    ],
+    "model_files": [
+        "C:\\Users\\trist\\Downloads\\Panhelleux_Rabier_model (4).tflite"
+    ],
+    "model_n_params": 79237,
+    "model_name": "Panhelleux_Rabier_model_4",
+    "model_size": 316948,
+    "model_type": "tflite",
+    "name": "network",
+    "outputs": [
+        "nl_5"
+    ],
+    "ram_io_size": [
+        0,
+        0
+    ],
+    "ram_size": 2560,
+    "report_version": 1.1,
+    "rom_cfact": 1.0,
+    "rom_heap_inspector": 2048,
+    "rom_inputs": [
+        {
+            "c_size": 20,
+            "c_type": "float",
+            "name": "serving_default_keras_tensor_1200"
+        }
+    ],
+    "rom_n_macc": 80048,
+    "rom_outputs": [
+        {
+            "c_size": 20,
+            "c_type": "float",
+            "name": "nl_5"
+        }
+    ],
+    "rom_size": 316948,
+    "strategy": "",
+    "tools_api_version": "2.0.0-20049",
+    "tools_version": "2.0.0-20049",
+    "val_error": 1.3480450888891937e-07,
+    "val_error_desc": "x-cross (l2r) #1",
+    "val_metrics": [
+        {
+            "acc": "95.71%",
+            "cos": 0.9642543792724609,
+            "desc": "TARGET c-model #1",
+            "l2r": 0.27477291226387024,
+            "mae": 0.028044942766427994,
+            "mean": -3.9864617162876925e-10,
+            "nse": 0.9122345432604869,
+            "rmse": 0.11850261688232422,
+            "std": 0.11850425601005554,
+            "ts_name": "'nl_5', 7246 x f32(1x5), m_id=[5]"
+        },
+        {
+            "acc": "95.71%",
+            "cos": 0.9642543792724609,
+            "desc": "original model #1",
+            "l2r": 0.27477291226387024,
+            "mae": 0.028044942766427994,
+            "mean": -2.124587589191762e-10,
+            "nse": 0.9122345432604869,
+            "rmse": 0.11850261688232422,
+            "std": 0.11850425601005554,
+            "ts_name": "'nl_5', 7246 x f32(1x5), m_id=[5]"
+        },
+        {
+            "acc": "100.00%",
+            "cos": 1.0,
+            "desc": "X-cross #1",
+            "l2r": 1.3480450888891937e-07,
+            "mae": 1.3840804946596563e-08,
+            "mean": -2.495958717485536e-10,
+            "nse": 0.9999999999999768,
+            "rmse": 5.813778258811908e-08,
+            "std": 5.813804904164499e-08,
+            "ts_name": "'nl_5', 7246 x f32(1x5), m_id=[5]"
+        }
+    ]
+}
