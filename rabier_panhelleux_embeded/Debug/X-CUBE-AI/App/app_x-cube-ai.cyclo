@@ -1,7 +1,5 @@
-../X-CUBE-AI/App/app_x-cube-ai.c:101:13:ai_log_err	2
-../X-CUBE-AI/App/app_x-cube-ai.c:114:12:ai_boostrap	4
-../X-CUBE-AI/App/app_x-cube-ai.c:157:12:ai_run	2
-../X-CUBE-AI/App/app_x-cube-ai.c:172:5:acquire_and_process_data	1
-../X-CUBE-AI/App/app_x-cube-ai.c:184:5:post_process	1
-../X-CUBE-AI/App/app_x-cube-ai.c:199:6:MX_X_CUBE_AI_Init	1
-../X-CUBE-AI/App/app_x-cube-ai.c:208:6:MX_X_CUBE_AI_Process	1
+../X-CUBE-AI/App/app_x-cube-ai.c:148:6:wait_for_synchronization_UART	3
+../X-CUBE-AI/App/app_x-cube-ai.c:171:5:acquire_and_process_data	3
+../X-CUBE-AI/App/app_x-cube-ai.c:191:5:post_process	3
+../X-CUBE-AI/App/app_x-cube-ai.c:216:6:MX_X_CUBE_AI_Init	2
+../X-CUBE-AI/App/app_x-cube-ai.c:224:6:MX_X_CUBE_AI_Process	5

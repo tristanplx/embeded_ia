@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    network.c
   * @author  AST Embedded Analytics Research Platform
-  * @date    2025-03-20T11:32:51+0100
+  * @date    2025-03-23T17:50:21+0100
   * @brief   AI Tool Automatic Code Generator for Embedded NN computing
   ******************************************************************************
   * @attention
@@ -42,7 +42,7 @@
 #endif
 
 #undef AI_TOOLS_DATE_TIME
-#define AI_TOOLS_DATE_TIME   "2025-03-20T11:32:51+0100"
+#define AI_TOOLS_DATE_TIME   "2025-03-23T17:50:21+0100"
 
 #undef AI_TOOLS_COMPILE_TIME
 #define AI_TOOLS_COMPILE_TIME    __DATE__ " " __TIME__
@@ -493,7 +493,7 @@ AI_NETWORK_OBJ_DECLARE(
     2560, NULL, NULL),
   AI_TENSOR_LIST_IO_OBJ_INIT(AI_FLAG_NONE, AI_NETWORK_IN_NUM, &serving_default_keras_tensor_1200_output),
   AI_TENSOR_LIST_IO_OBJ_INIT(AI_FLAG_NONE, AI_NETWORK_OUT_NUM, &nl_5_output),
-  &gemm_0_layer, 0x97854467, NULL)
+  &gemm_0_layer, 0xd08e6271, NULL)
 
 #else
 
@@ -513,7 +513,7 @@ AI_NETWORK_OBJ_DECLARE(
   ),
   AI_TENSOR_LIST_IO_OBJ_INIT(AI_FLAG_NONE, AI_NETWORK_IN_NUM, &serving_default_keras_tensor_1200_output),
   AI_TENSOR_LIST_IO_OBJ_INIT(AI_FLAG_NONE, AI_NETWORK_OUT_NUM, &nl_5_output),
-  &gemm_0_layer, 0x97854467, NULL)
+  &gemm_0_layer, 0xd08e6271, NULL)
 
 #endif	/*(AI_TOOLS_API_VERSION < AI_TOOLS_API_VERSION_1_5)*/
 
@@ -646,7 +646,7 @@ ai_bool ai_network_get_info(
       .params            = AI_STRUCT_INIT,
       .activations       = AI_STRUCT_INIT,
       .n_nodes           = 0,
-      .signature         = 0x97854467,
+      .signature         = 0xd08e6271,
     };
 
     if (!ai_platform_api_get_network_report(network, &r)) return false;
@@ -694,7 +694,7 @@ ai_bool ai_network_get_report(
       .map_weights       = AI_STRUCT_INIT,
       .map_activations   = AI_STRUCT_INIT,
       .n_nodes           = 0,
-      .signature         = 0x97854467,
+      .signature         = 0xd08e6271,
     };
 
     if (!ai_platform_api_get_network_report(network, &r)) return false;

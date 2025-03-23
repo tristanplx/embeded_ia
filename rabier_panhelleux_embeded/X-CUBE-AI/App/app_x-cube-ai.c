@@ -1,37 +1,18 @@
-
 /**
   ******************************************************************************
   * @file    app_x-cube-ai.c
-  * @author  X-CUBE-AI C code generator
-  * @brief   AI program body
+  * @brief   Corps du programme d’IA pour le modèle network
   ******************************************************************************
   * @attention
   *
   * Copyright (c) 2025 STMicroelectronics.
-  * All rights reserved.
+  * Tous droits réservés.
   *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
+  * Ce logiciel est distribué selon les termes précisés dans le fichier LICENSE
+  * à la racine du composant logiciel. S'il n'y a pas de fichier LICENSE, il est
+  * fourni "AS-IS".
   *
   ******************************************************************************
-  */
-
- /*
-  * Description
-  *   v1.0 - Minimum template to show how to use the Embedded Client API
-  *          model. Only one input and one output is supported. All
-  *          memory resources are allocated statically (AI_NETWORK_XX, defines
-  *          are used).
-  *          Re-target of the printf function is out-of-scope.
-  *   v2.0 - add multiple IO and/or multiple heap support
-  *
-  *   For more information, see the embeded documentation:
-  *
-  *       [1] %X_CUBE_AI_DIR%/Documentation/index.html
-  *
-  *   X_CUBE_AI_DIR indicates the location where the X-CUBE-AI pack is installed
-  *   typical : C:\Users\[user_name]\STM32Cube\Repository\STMicroelectronics\X-CUBE-AI\7.1.0
   */
 
 #ifdef __cplusplus
@@ -39,12 +20,6 @@
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-
-#if defined ( __ICCARM__ )
-#elif defined ( __CC_ARM ) || ( __GNUC__ )
-#endif
-
-/* System headers */
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -58,43 +33,47 @@
 #include "network_data.h"
 
 /* USER CODE BEGIN includes */
+#include "usart.h"  // Pour avoir la déclaration de UART_HandleTypeDef
+
+extern UART_HandleTypeDef huart2; // Déclaration externe de huart2
+
+#define SYNCHRONISATION    0xAB
+#define ACKNOWLEDGE        0xCD
+#define TIMEOUT            1000
+#define CLASS_NUMBER       5  // Nombre de classes mis à jour pour correspondre au Python
+#define INPUT_BUFFER_SIZE  AI_NETWORK_IN_1_SIZE_BYTES
 /* USER CODE END includes */
 
 /* IO buffers ----------------------------------------------------------------*/
-
 #if !defined(AI_NETWORK_INPUTS_IN_ACTIVATIONS)
 AI_ALIGNED(4) ai_i8 data_in_1[AI_NETWORK_IN_1_SIZE_BYTES];
 ai_i8* data_ins[AI_NETWORK_IN_NUM] = {
-data_in_1
+  data_in_1
 };
 #else
 ai_i8* data_ins[AI_NETWORK_IN_NUM] = {
-NULL
+  NULL
 };
 #endif
 
 #if !defined(AI_NETWORK_OUTPUTS_IN_ACTIVATIONS)
 AI_ALIGNED(4) ai_i8 data_out_1[AI_NETWORK_OUT_1_SIZE_BYTES];
 ai_i8* data_outs[AI_NETWORK_OUT_NUM] = {
-data_out_1
+  data_out_1
 };
 #else
 ai_i8* data_outs[AI_NETWORK_OUT_NUM] = {
-NULL
+  NULL
 };
 #endif
 
 /* Activations buffers -------------------------------------------------------*/
-
 AI_ALIGNED(32)
 static uint8_t pool0[AI_NETWORK_DATA_ACTIVATION_1_SIZE];
-
-ai_handle data_activations0[] = {pool0};
+ai_handle data_activations0[] = { pool0 };
 
 /* AI objects ----------------------------------------------------------------*/
-
 static ai_handle network = AI_HANDLE_NULL;
-
 static ai_buffer* ai_input;
 static ai_buffer* ai_output;
 
@@ -102,10 +81,10 @@ static void ai_log_err(const ai_error err, const char *fct)
 {
   /* USER CODE BEGIN log */
   if (fct)
-    printf("TEMPLATE - Error (%s) - type=0x%02x code=0x%02x\r\n", fct,
-        err.type, err.code);
+    printf("TEMPLATE - Erreur (%s) - type=0x%02x code=0x%02x\r\n", fct,
+           err.type, err.code);
   else
-    printf("TEMPLATE - Error - type=0x%02x code=0x%02x\r\n", err.type, err.code);
+    printf("TEMPLATE - Erreur - type=0x%02x code=0x%02x\r\n", err.type, err.code);
 
   do {} while (1);
   /* USER CODE END log */
@@ -115,7 +94,7 @@ static int ai_boostrap(ai_handle *act_addr)
 {
   ai_error err;
 
-  /* Create and initialize an instance of the model */
+  /* Création et initialisation de l'instance du modèle */
   err = ai_network_create_and_init(&network, act_addr, NULL);
   if (err.type != AI_ERROR_NONE) {
     ai_log_err(err, "ai_network_create_and_init");
@@ -126,28 +105,22 @@ static int ai_boostrap(ai_handle *act_addr)
   ai_output = ai_network_outputs_get(network, NULL);
 
 #if defined(AI_NETWORK_INPUTS_IN_ACTIVATIONS)
-  /*  In the case where "--allocate-inputs" option is used, memory buffer can be
-   *  used from the activations buffer. This is not mandatory.
-   */
-  for (int idx=0; idx < AI_NETWORK_IN_NUM; idx++) {
-	data_ins[idx] = ai_input[idx].data;
+  for (int idx = 0; idx < AI_NETWORK_IN_NUM; idx++) {
+    data_ins[idx] = ai_input[idx].data;
   }
 #else
-  for (int idx=0; idx < AI_NETWORK_IN_NUM; idx++) {
-	  ai_input[idx].data = data_ins[idx];
+  for (int idx = 0; idx < AI_NETWORK_IN_NUM; idx++) {
+    ai_input[idx].data = data_ins[idx];
   }
 #endif
 
 #if defined(AI_NETWORK_OUTPUTS_IN_ACTIVATIONS)
-  /*  In the case where "--allocate-outputs" option is used, memory buffer can be
-   *  used from the activations buffer. This is no mandatory.
-   */
-  for (int idx=0; idx < AI_NETWORK_OUT_NUM; idx++) {
-	data_outs[idx] = ai_output[idx].data;
+  for (int idx = 0; idx < AI_NETWORK_OUT_NUM; idx++) {
+    data_outs[idx] = ai_output[idx].data;
   }
 #else
-  for (int idx=0; idx < AI_NETWORK_OUT_NUM; idx++) {
-	ai_output[idx].data = data_outs[idx];
+  for (int idx = 0; idx < AI_NETWORK_OUT_NUM; idx++) {
+    ai_output[idx].data = data_outs[idx];
   }
 #endif
 
@@ -160,36 +133,80 @@ static int ai_run(void)
 
   batch = ai_network_run(network, ai_input, ai_output);
   if (batch != 1) {
-    ai_log_err(ai_network_get_error(network),
-        "ai_network_run");
+    ai_log_err(ai_network_get_error(network), "ai_network_run");
     return -1;
   }
-
   return 0;
 }
 
 /* USER CODE BEGIN 2 */
-int acquire_and_process_data(ai_i8* data[])
-{
-  /* fill the inputs of the c-model
-  for (int idx=0; idx < AI_NETWORK_IN_NUM; idx++ )
-  {
-      data[idx] = ....
-  }
 
+/**
+  * @brief  Attend la synchronisation UART.
+  *         Attend de recevoir l’octet SYNCHRONISATION (0xAB) du PC et répond par ACKNOWLEDGE (0xCD).
   */
+void wait_for_synchronization_UART(void)
+{
+  uint8_t rx;
+  while (1)
+  {
+    if (HAL_UART_Receive(&huart2, &rx, 1, TIMEOUT) == HAL_OK)
+    {
+      if (rx == SYNCHRONISATION)
+      {
+        uint8_t ack = ACKNOWLEDGE;
+        HAL_UART_Transmit(&huart2, &ack, 1, TIMEOUT);
+        // Lecture d'un éventuel octet supplémentaire si nécessaire (optionnel)
+        break;
+      }
+    }
+  }
+}
+
+/**
+  * @brief  Acquiert les données d'entrée via UART et les copie dans le buffer d'entrée.
+  * @param  data : pointeur vers le buffer d'entrée (ai_input[0].data)
+  * @retval 0 si succès, 1 sinon.
+  */
+int acquire_and_process_data(ai_i8* data)
+{
+  uint8_t tmp[INPUT_BUFFER_SIZE] = {0};
+  HAL_StatusTypeDef status = HAL_UART_Receive(&huart2, tmp, INPUT_BUFFER_SIZE, TIMEOUT);
+  if (status != HAL_OK)
+  {
+    printf("Erreur de réception UART: %d\n", status);
+    return 1;
+  }
+  // On suppose ici que les données reçues sont déjà au format attendu.
+  memcpy(data, tmp, INPUT_BUFFER_SIZE);
   return 0;
 }
 
-int post_process(ai_i8* data[])
-{
-  /* process the predictions
-  for (int idx=0; idx < AI_NETWORK_OUT_NUM; idx++ )
-  {
-      data[idx] = ....
-  }
-
+/**
+  * @brief  Post-traite la sortie du modèle et la transmet via UART.
+  *         La sortie est supposée contenir CLASS_NUMBER valeurs float sur 4 octets.
+  * @param  data : pointeur vers le buffer de sortie (ai_output[0].data)
+  * @retval 0 si succès, 1 sinon.
   */
+int post_process(ai_i8* data)
+{
+  uint8_t out_uint8[CLASS_NUMBER] = {0};
+  for (size_t i = 0; i < CLASS_NUMBER; i++)
+  {
+    uint8_t temp[4] = {0};
+    for (size_t j = 0; j < 4; j++)
+    {
+      temp[j] = ((uint8_t*)data)[i * 4 + j];
+    }
+    float val = *(float*)temp;
+    out_uint8[i] = (uint8_t)(val * 255);
+  }
+  HAL_StatusTypeDef status = HAL_UART_Transmit(&huart2, out_uint8, CLASS_NUMBER, TIMEOUT);
+  if (status != HAL_OK)
+  {
+    printf("Erreur d'envoi UART: %d\n", status);
+    return 1;
+  }
   return 0;
 }
 /* USER CODE END 2 */
@@ -198,18 +215,48 @@ int post_process(ai_i8* data[])
 
 void MX_X_CUBE_AI_Init(void)
 {
-    /* USER CODE BEGIN 5 */
-  printf("\r\nTEMPLATE - initialization\r\n");
-
+  /* USER CODE BEGIN 5 */
+  printf("\r\nTEMPLATE - Initialisation\r\n");
   ai_boostrap(data_activations0);
-    /* USER CODE END 5 */
+  /* USER CODE END 5 */
 }
 
 void MX_X_CUBE_AI_Process(void)
 {
-    /* USER CODE BEGIN 6 */
-    /* USER CODE END 6 */
+  /* USER CODE BEGIN 6 */
+  int res = -1;
+  uint8_t *in_data = (uint8_t*)ai_input[0].data;
+  uint8_t *out_data = (uint8_t*)ai_output[0].data;
+
+  // Synchronisation UART : attend la requête du PC
+  wait_for_synchronization_UART();
+
+  if (network)
+  {
+    do
+    {
+      // 1. Acquisition et prétraitement des données d'entrée
+      res = acquire_and_process_data((ai_i8*)in_data);
+
+      // 2. Exécution de l'inférence
+      if (res == 0)
+        res = ai_run();
+
+      // 3. Post-traitement et transmission des résultats
+      if (res == 0)
+        res = post_process((ai_i8*)out_data);
+
+    } while (res == 0);
+  }
+
+  if (res)
+  {
+    ai_error err = { AI_ERROR_INVALID_STATE, AI_ERROR_CODE_NETWORK };
+    ai_log_err(err, "Process a échoué");
+  }
+  /* USER CODE END 6 */
 }
+
 #ifdef __cplusplus
 }
 #endif

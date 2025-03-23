@@ -61,8 +61,8 @@ all: main-build
 main-build: rabier_panhelleux_embeded.elf secondary-outputs
 
 # Tool invocations
-rabier_panhelleux_embeded.elf rabier_panhelleux_embeded.map: $(OBJS) $(USER_OBJS) C:\Users\trist\STM32CubeIDE\workspace_1.13.2\rabier_panhelleux_embeded\STM32L4R9AIIX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "rabier_panhelleux_embeded.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\trist\STM32CubeIDE\workspace_1.13.2\rabier_panhelleux_embeded\STM32L4R9AIIX_FLASH.ld" --specs=nosys.specs -Wl,-Map="rabier_panhelleux_embeded.map" -Wl,--gc-sections -static -L"C:\Users\trist\STM32CubeIDE\workspace_1.13.2\embeded_ia\Middlewares\ST\AI\Lib" -L../Middlewares/ST/AI/Lib --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+rabier_panhelleux_embeded.elf rabier_panhelleux_embeded.map: $(OBJS) $(USER_OBJS) C:\Users\trist\OneDrive\Documents\Cours\Ismin\2A\S8\ia_embarquee\embeded_ia\rabier_panhelleux_embeded\STM32L4R9AIIX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "rabier_panhelleux_embeded.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\trist\OneDrive\Documents\Cours\Ismin\2A\S8\ia_embarquee\embeded_ia\rabier_panhelleux_embeded\STM32L4R9AIIX_FLASH.ld" --specs=nosys.specs -Wl,-Map="rabier_panhelleux_embeded.map" -Wl,--gc-sections -static -L"C:\Users\trist\OneDrive\Documents\Cours\Ismin\2A\S8\ia_embarquee\embeded_ia\rabier_panhelleux_embeded\Middlewares\ST\AI\Lib" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

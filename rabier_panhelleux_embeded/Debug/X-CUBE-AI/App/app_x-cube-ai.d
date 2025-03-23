@@ -45,7 +45,8 @@ X-CUBE-AI/App/app_x-cube-ai.o: ../X-CUBE-AI/App/app_x-cube-ai.c \
  ../Middlewares/ST/AI/Inc/ai_platform.h \
  ../Middlewares/ST/AI/Inc/core_assert.h ../X-CUBE-AI/App/network.h \
  ../X-CUBE-AI/App/network_config.h ../X-CUBE-AI/App/network_data.h \
- ../X-CUBE-AI/App/network_data_params.h
+ ../X-CUBE-AI/App/network_data_params.h ../Core/Inc/usart.h \
+ ../Core/Inc/main.h
 ../X-CUBE-AI/App/app_x-cube-ai.h:
 ../Middlewares/ST/AI/Inc/ai_platform.h:
 ../Core/Inc/main.h:
@@ -97,3 +98,5 @@ X-CUBE-AI/App/app_x-cube-ai.o: ../X-CUBE-AI/App/app_x-cube-ai.c \
 ../X-CUBE-AI/App/network_config.h:
 ../X-CUBE-AI/App/network_data.h:
 ../X-CUBE-AI/App/network_data_params.h:
+../Core/Inc/usart.h:
+../Core/Inc/main.h:

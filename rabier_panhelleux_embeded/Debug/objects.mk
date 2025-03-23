@@ -5,5 +5,5 @@
 
 USER_OBJS :=
 
-LIBS := -lNetworkRuntime1000_CM4_GCC.a -l:NetworkRuntime1000_CM4_GCC.a
+LIBS := -l:NetworkRuntime1000_CM4_GCC.a
 
