@@ -21,11 +21,12 @@ La dernière couche utilise softmax, ce qui permet de prédire l’une des 5 cla
 4.  **Évaluation :**  
     Nous avons évalué la performance du modèle à l’aide d’indicateurs tels que la matrice de confusion et le rapport de classification. L’approche initiale sans rééquilibrage montre une forte prédominance de la classe fonctionnelle, tandis que le modèle entraîné sur des données rééquilibrées améliore significativement la détection des classes de défaillance minoritaires.
 
-### STM32Cube   
+### STM32Cube
+    Dans STM32CubeIDE
 
    ## Arborescence
-   Le dossier **numpy_data** contient tous les dataset d'entrainement, de test et de validation. Cela permet notamment de charger ces données dans STM32mxAI afin de réaliser l'analyse du modèle.
-   Le dossier **rabier_panhelleux_embedded** contient tous les fichiers et dossiers nécessaires à l'implémentation du modèle sur la carte *STM32L4R9I-DISCO*, le modèle étant chargé sous forme d'un fichier '.h5' dans le repertoire racine.
+   Le dossier **rabier_panhelleux_embedded** contient tous les fichiers et dossiers nécessaires à l'implémentation du modèle sur la carte *STM32L4R9I-DISCO*, le modèle étant chargé sous forme d'un fichier '.tflite' dans le repertoire racine. Les jeux de connées pour la validation sont également présent dans le dossier utilisé pour le code STM32.
+   Le repertoire racine contient le modèle et le fichier jupyter Notebook. On a également un fihcier python directement pour compiler directement le modèle et pouvoir l'exporter.
    
 
 ## Conclusion
